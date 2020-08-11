@@ -8,13 +8,14 @@ A few known wireless cards that use this driver include
 * [Edimax EW-7822ULC](http://us.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/us/wireless_adapters_ac1200_dual-band/ew-7822ulc/)
 * [ASUS AC-53 NANO](https://www.asus.com/Networking/USB-AC53-Nano/)
 * [D-Link DWA-182 (Revision D1 only)](http://ca.dlink.com/products/connect/wireless-ac1200-dual-band-usb-adapter/)
+* [TP-Link Archer T4U ver.3](https://www.tp-link.com/us/home-networking/usb-adapter/archer-t4u/)
 
 
 > NOTE: At least v4.7 is needed to compile this module
 > sorry people with older kernels, the code is removed.
 > Upon request I can work towards making it backwards compatible.
 
-Currently tested on X86_64 and ARM platform(s) **only**,  
+Currently tested on X86_64 platform **only**,  
 cross compile possible.
 
 ## Installing

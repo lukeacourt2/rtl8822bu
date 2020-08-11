@@ -7034,13 +7034,20 @@ static void cfg80211_rtw_mgmt_frame_register(struct wiphy *wiphy,
 #else
 	struct net_device *ndev,
 #endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	struct mgmt_frame_regs *upd)
+#else
 	u16 frame_type, bool reg)
+#endif
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0))
 	struct net_device *ndev = wdev_to_ndev(wdev);
 #endif
 	_adapter *adapter;
-
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	u16 frame_type = BIT(upd->global_stypes << 4);
+	bool reg = false;
+#endif
 	struct rtw_wdev_priv *pwdev_priv;
 
 	if (ndev == NULL)
@@ -8311,6 +8318,7 @@ int	cfg80211_rtw_suspend(struct wiphy *wiphy, struct cfg80211_wowlan *wow) {
 int	cfg80211_rtw_resume(struct wiphy *wiphy) {
 
 	_adapter *padapter;
+
 	struct pwrctrl_priv *pwrpriv;
 	struct mlme_priv *pmlmepriv;
 	padapter = wiphy_to_adapter(wiphy);
@@ -9342,9 +9350,15 @@ static struct cfg80211_ops rtw_cfg80211_ops = {
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
 	.mgmt_tx = cfg80211_rtw_mgmt_tx,
-	.mgmt_frame_register = cfg80211_rtw_mgmt_frame_register,
+//	.mgmt_frame_register = cfg80211_rtw_mgmt_frame_register,
 #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 34) && LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 35))
 	.action = cfg80211_rtw_mgmt_tx,
+#endif
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0))
+	.update_mgmt_frame_registrations = cfg80211_rtw_mgmt_frame_register,
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
+	.mgmt_frame_register = cfg80211_rtw_mgmt_frame_register,
 #endif
 
 #if defined(CONFIG_TDLS) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 2, 0))
