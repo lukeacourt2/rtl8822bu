@@ -2140,7 +2140,7 @@ BIP_exit:
 
 #ifndef PLATFORM_FREEBSD
 /* compress 512-bits */
-static int sha256_compress(struct rtw_256_state *md, unsigned char *buf)
+static int sha256_compress(struct rtw_sha256_state *md, unsigned char *buf)
 {
 	u32 S[8], W[64], t0, t1;
 	u32 t;
